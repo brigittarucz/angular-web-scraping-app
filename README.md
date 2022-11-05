@@ -1,10 +1,29 @@
 # FoodApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.6.
+Install the Angular Language Service (VSCode extension):
 
-## Development server
+`Angular.ng-template`
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Install VSCode ESLint extension:
+
+`dbaeumer.vscode-eslint`
+
+Install VSCode Prettier extension:
+
+`esbenp.prettier-vscode`
+
+Generic husky in `package.json` ( [more on Husky](https://medium.com/@anshul.kashyap03/set-up-git-hooks-with-husky-and-lint-staged-angular-example-a4d46e440ba5) )
+
+```
+ "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier:check",
+      "pre-push": "npm run test"
+    }
+  }
+```
+
+When in proper dev mode, remove `--quiet` from `package.json` for commits.
 
 ## Code scaffolding
 
@@ -24,4 +43,4 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Run `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
