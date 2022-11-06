@@ -1,12 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-recipe-ingredient-form',
-  templateUrl: './recipe-ingredient-form.component.html',
-  styleUrls: ['./recipe-ingredient-form.component.scss'],
+  template: `
+    Link Ingredient Website:
+    <input type="text" name="link" [formControl]="link" (keyup)="getInput()" />
+  `,
 })
-export class RecipeIngredientFormComponent implements OnInit {
-  constructor() {}
+export class RecipeIngredientFormComponent {
+  // Multiple values
+  // formGroup: FormGroup = new FormGroup({
+  //   link: new FormControl('', [Validators.required]),
+  // });
+  link = new FormControl('', [Validators.required]);
 
-  ngOnInit(): void {}
+  getInput() {
+    console.log(this.link.value);
+  }
 }
