@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   Ingredient,
+  IngredientsApi,
   IngredientsService,
 } from '../../services/ingredients.service';
 
@@ -47,26 +48,31 @@ import {
         *ngIf="isFormSubmitted"
         [ngStyle]="{ color: 'red', 'font-weight': 700 }"
       >
-        <div *ngIf="!this.formGroup.touched">
+        <div *ngIf="this.formGroup.status === 'INVALID'">
           <p>Complete the form input fields in order to submit it</p>
         </div>
-        <div
-          *ngIf="this.formGroup.status === 'INVALID' && this.formGroup.touched"
-        >
-          <p>Cannot submit form until errors are handled</p>
-        </div>
+      </div>
+
+      <div *ngIf="hasErrorGetIngredients">
+        Error in fetching ingredients. Please try again.
       </div>
     </form>
     <small>Currently supported: xyz.recipes.com</small>
+
+    <app-recipe-ingredients
+      [ingredients]="ingredients"
+    ></app-recipe-ingredients>
   `,
 })
-export class RecipeIngredientFormComponent {
+export class RecipeIngredientFormComponent implements OnInit {
   // Multiple values
   formGroup: FormGroup = new FormGroup({
     url: new FormControl('', [Validators.required]),
   });
   isInputFocused: boolean = false;
   isFormSubmitted: boolean = false;
+  hasErrorGetIngredients: boolean = false;
+  ingredients: Ingredient[] | [] = [];
 
   constructor(private ingredientsService: IngredientsService) {}
 
@@ -80,8 +86,23 @@ export class RecipeIngredientFormComponent {
     // to execute an observable you call its subscribe method
     // the subscribe method takes in an observer
     this.ingredientsService.getIngredients().subscribe({
-      next: (res: Ingredient[]) => console.log(res),
-      error: (err: Error) => console.log(err),
+      next: (res: Ingredient[]) => (this.ingredients = res),
+      error: (err: Error) => {
+        this.hasErrorGetIngredients = true;
+        console.log(err);
+      },
+    });
+  }
+
+  ngOnInit() {
+    this.ingredientsService.getIngredients().subscribe({
+      next: (res: Ingredient[]) => {
+        this.ingredients = res;
+      },
+      error: (err: Error) => {
+        this.hasErrorGetIngredients = true;
+        console.log(err);
+      },
     });
   }
 
