@@ -1,0 +1,24 @@
+{
+  "ingredients": {
+    "tomato": [
+      {
+        "url": "url-tomato-1",
+        "price": "$price"
+      },
+      {
+        "url": "url-tomato-2",
+        "price": "$price"
+      }
+    ],
+    "cucumber": [
+      {
+        "url": "url-cucumber-1",
+        "price": "$price"
+      },
+      {
+        "url": "url-cucumber-2",
+        "price": "$price"
+      }
+    ]
+  }
+}

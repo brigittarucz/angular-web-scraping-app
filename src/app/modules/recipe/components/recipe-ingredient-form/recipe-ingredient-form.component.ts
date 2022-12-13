@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  Ingredient,
+  IngredientsService,
+} from '../../services/ingredients.service';
 
 @Component({
   selector: 'app-recipe-ingredient-form',
@@ -40,10 +44,17 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
       <button type="submit">Get ingredients</button><br />
 
       <div
-        *ngIf="isFormSubmitted && this.formGroup.status === 'INVALID'"
+        *ngIf="isFormSubmitted"
         [ngStyle]="{ color: 'red', 'font-weight': 700 }"
       >
-        <p>Cannot submit form until errors are handled</p>
+        <div *ngIf="!this.formGroup.touched">
+          <p>Complete the form input fields in order to submit it</p>
+        </div>
+        <div
+          *ngIf="this.formGroup.status === 'INVALID' && this.formGroup.touched"
+        >
+          <p>Cannot submit form until errors are handled</p>
+        </div>
       </div>
     </form>
     <small>Currently supported: xyz.recipes.com</small>
@@ -57,11 +68,21 @@ export class RecipeIngredientFormComponent {
   isInputFocused: boolean = false;
   isFormSubmitted: boolean = false;
 
+  constructor(private ingredientsService: IngredientsService) {}
+
   onSubmit() {
     if (this.formGroup.status === 'INVALID') {
       this.isFormSubmitted = true;
       return;
     }
+
+    // where this.ingredientsService.getIngredients() = observable
+    // to execute an observable you call its subscribe method
+    // the subscribe method takes in an observer
+    this.ingredientsService.getIngredients().subscribe({
+      next: (res: Ingredient[]) => console.log(res),
+      error: (err: Error) => console.log(err),
+    });
   }
 
   onFocusIn() {
