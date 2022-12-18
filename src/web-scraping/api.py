@@ -1,3 +1,8 @@
+# python pip install "SomePackage"
+# python virtualenv <DIR_NAME>
+# source <DIR_NAME>/bin/activate
+# pip freeze > requirements.txt
+
 from flask import Flask
 from flask import request
 from webscraper import main
@@ -7,10 +12,13 @@ app = Flask(__name__)
 
 @app.route('/login', methods=['GET', 'POST'])
 
-# flask --app api run
-
+# flask --app api --debug run
+# https://selenium-python.readthedocs.io/
+# https://www.crummy.com/software/BeautifulSoup/bs4/doc/#find
+# 
 def login():
     if request.method == 'GET':
-        main("https://www.google.com/search?q=export+python+file&oq=export+python+file&aqs=chrome..69i57j0i512l5j0i15i22i30j0i22i30l3.2670j0j4&sourceid=chrome&ie=UTF-8")
+        # store, product
+        main("https://www.lidl.ro/p/oferte-de-joi/castraveti-in-otet/p81582", "Castraveți în oțet")
         print("GET")
         return f"Hello"
