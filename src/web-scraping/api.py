@@ -10,15 +10,20 @@ from webscraper import main
 # the first argument is the name of the application's module or package
 app = Flask(__name__)
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/scrape', methods=['GET'])
 
 # flask --app api --debug run
 # https://selenium-python.readthedocs.io/
 # https://www.crummy.com/software/BeautifulSoup/bs4/doc/#find
-# 
+
+
+
 def login():
     if request.method == 'GET':
-        # store, product
-        main("https://www.lidl.ro/p/oferte-de-joi/castraveti-in-otet/p81582", "Castraveți în oțet")
-        print("GET")
+        store = request.args.get('store', '')
+        product = request.args.get('product', '')
+        main(store, product)
+        # main("https://www.lidl.ro/p/oferte-de-joi/castraveti-in-otet/p81582", "Castraveți în oțet")
+        print(store)
+        print(product)
         return f"Hello"
